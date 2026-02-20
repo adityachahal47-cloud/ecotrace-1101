@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoTrace</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <span class="brand-name">EcoTrace</span>
+      </div>
+      <div class="version">v3.0</div>
+    </header>
+
+    <!-- Login Section -->
+    <div id="login-section" class="section hidden">
+      <p class="info-text">Sign in to analyze content</p>
+      <input type="email" id="email-input" placeholder="Email" class="input" />
+      <input type="password" id="password-input" placeholder="Password" class="input" />
+      <button id="login-btn" class="btn btn-primary">Sign In</button>
+      <p id="login-error" class="error hidden"></p>
+    </div>
+
+    <!-- Main Section -->
+    <div id="main-section" class="section hidden">
+      <div class="user-bar">
+        <span id="user-email" class="user-email"></span>
+        <button id="logout-btn" class="btn-link">Logout</button>
+      </div>
+
+      <!-- Analyze Options -->
+      <div class="analyze-section">
+        <h3 class="section-title">Analyze Content</h3>
+
+        <div class="tab-bar">
+          <button class="tab active" data-tab="selection">Selection</button>
+          <button class="tab" data-tab="image">Image</button>
+          <button class="tab" data-tab="url">URL</button>
+        </div>
+
+        <!-- Selection Tab -->
+        <div id="tab-selection" class="tab-content active">
+          <p class="hint">Select text on any page, then right-click and choose "Analyze with EcoTrace"</p>
+          <button id="analyze-selection-btn" class="btn btn-primary" disabled>
+            Analyze Selected Text
+          </button>
+        </div>
+
+        <!-- Image Tab -->
+        <div id="tab-image" class="tab-content">
+          <p class="hint">Right-click any image on a page and choose "Analyze with EcoTrace"</p>
+          <input type="text" id="image-url-input" placeholder="Or paste image URL..." class="input" />
+          <button id="analyze-image-btn" class="btn btn-primary">Analyze Image</button>
+        </div>
+
+        <!-- URL Tab -->
+        <div id="tab-url" class="tab-content">
+          <input type="text" id="content-url-input" placeholder="Paste content URL..." class="input" />
+          <button id="analyze-url-btn" class="btn btn-primary">Analyze URL</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="result-section" class="hidden">
+        <div id="result-card" class="result-card">
+          <div class="result-header">
+            <div id="result-icon" class="result-icon"></div>
+            <div>
+              <div id="result-verdict" class="result-verdict"></div>
+              <div id="result-meta" class="result-meta"></div>
+            </div>
+          </div>
+          <div class="result-bar-container">
+            <div id="result-bar" class="result-bar"></div>
+          </div>
+          <a id="result-link" href="#" target="_blank" class="btn btn-secondary">View Full Report</a>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loading-section" class="hidden">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Analyzing with 3 AI models...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
