@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Shield, ArrowLeft, Loader2 } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ResultView } from "@/components/analysis/ResultView";
+import Navbar from "@/components/layout/Navbar";
 
 export default function ResultPage() {
   const params = useParams();
@@ -63,10 +65,13 @@ export default function ResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a1a] text-white flex items-center justify-center">
-        <div className="flex items-center gap-3">
-          <Loader2 className="w-6 h-6 animate-spin text-[#667EEA]" />
-          <span className="text-white/60">Loading result...</span>
+      <div className="min-h-screen bg-[#0a0a1a] text-white">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="flex items-center gap-3">
+            <Loader2 className="w-6 h-6 animate-spin text-[#667EEA]" />
+            <span className="text-white/60">Loading result...</span>
+          </div>
         </div>
       </div>
     );
@@ -74,15 +79,18 @@ export default function ResultPage() {
 
   if (error || !analysis) {
     return (
-      <div className="min-h-screen bg-[#0a0a1a] text-white flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <p className="text-white/60">{ error || "Result not found." }</p>
-          <Link
-            href="/analyze"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#667EEA] to-[#764BA2] text-white font-medium"
-          >
-            Analyze Content
-          </Link>
+      <div className="min-h-screen bg-[#0a0a1a] text-white">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center space-y-4">
+            <p className="text-white/60">{error || "Result not found."}</p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#667EEA] to-[#764BA2] text-white font-medium"
+            >
+              Analyze Content
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -90,34 +98,27 @@ export default function ResultPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a1a] text-white">
-      {/* Top Nav */ }
-      <nav className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#667EEA] to-[#764BA2] flex items-center justify-center">
-                <Shield className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-transparent">
-                EcoTrace
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/analyze"
-                className="flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Analyze More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
-      {/* Result Content */ }
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ResultView analysis={ analysis } />
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        {/* Back link */}
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+          <Link href="/"
+            className="inline-flex items-center gap-2 text-white/40 hover:text-white text-sm transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Scanner
+          </Link>
+        </motion.div>
+
+        {/* Result heading */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="mb-8">
+          <h1 className="text-2xl font-bold text-white">Forensic Analysis Report</h1>
+          <p className="text-white/40 text-sm mt-1">
+            Full breakdown across {analysis.model_outputs?.length || 4} AI models
+          </p>
+        </motion.div>
+
+        <ResultView analysis={analysis} />
       </main>
     </div>
   );

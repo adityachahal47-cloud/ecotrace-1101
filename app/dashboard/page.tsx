@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PlusCircle, Search, Loader2, Inbox } from "lucide-react";
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
+import Navbar from "@/components/layout/Navbar";
+
 import { HistoryCard } from "@/components/dashboard/HistoryCard";
 import { HistoryFilters } from "@/components/dashboard/HistoryFilters";
 import { StatsBar } from "@/components/dashboard/StatsBar";
@@ -114,10 +115,11 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a1a] text-white">
-      <Navbar email={ email } />
+      <Navbar />
+
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */ }
+        {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -133,33 +135,33 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        {/* Stats */ }
-        { !loading && total > 0 && (
+        {/* Stats */}
+        {!loading && total > 0 && (
           <div className="mb-6">
-            <StatsBar total={ total } aiCount={ aiCount } realCount={ realCount } />
+            <StatsBar total={total} aiCount={aiCount} realCount={realCount} />
           </div>
-        ) }
+        )}
 
-        {/* Filters */ }
+        {/* Filters */}
         <div className="mb-6">
           <HistoryFilters
-            contentType={ contentType }
-            verdict={ verdict }
-            onContentTypeChange={ setContentType }
-            onVerdictChange={ setVerdict }
+            contentType={contentType}
+            verdict={verdict}
+            onContentTypeChange={setContentType}
+            onVerdictChange={setVerdict}
           />
         </div>
 
-        {/* History List */ }
-        { loading ? (
+        {/* History List */}
+        {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-[#667EEA] mb-4" />
             <p className="text-white/40 text-sm">Loading history...</p>
           </div>
         ) : analyses.length === 0 ? (
           <motion.div
-            initial={ { opacity: 0 } }
-            animate={ { opacity: 1 } }
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-20 text-center"
           >
             <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center mb-6">
@@ -182,17 +184,17 @@ export default function DashboardPage() {
         ) : (
           <div className="space-y-3">
             <AnimatePresence>
-              { analyses.map((analysis, index) => (
+              {analyses.map((analysis, index) => (
                 <HistoryCard
-                  key={ analysis.id }
-                  analysis={ analysis }
-                  index={ index }
-                  onDelete={ handleDelete }
+                  key={analysis.id}
+                  analysis={analysis}
+                  index={index}
+                  onDelete={handleDelete}
                 />
-              )) }
+              ))}
             </AnimatePresence>
           </div>
-        ) }
+        )}
       </main>
     </div>
   );
